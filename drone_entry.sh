@@ -3,11 +3,12 @@
 set -x
 
 WORKER_DNS=${WORKER_DNS:-}
+WORKERS=${WORKERS:-2}
 
 if [ ! -z ${WORKER_DNS} ]; then
   workers=
   for ip in $(dig ${WORKER_DNS}|grep ^${WORKER_DNS}\. |awk '{print $5}'); do
-    for i in $(seq 1 4);do
+    for i in $(seq 1 ${WORKERS});do
         workers=${workers}tcp://$ip:2375,
     done
   done
